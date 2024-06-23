@@ -14,14 +14,11 @@ fn to_list(file_name: String) -> Nil {
   let read_file = read(file_name)
 
   case read_file {
-    Ok(file) -> to_list_print(file)
+    Ok(file) -> {
+      let assert Ok(records) = gsv.to_lists(file)
+      let _ = io.debug(records)
+      io.println("")
+    }
     Error(e) -> describe_error(e) |> io.println
   }
-  io.println("")
-}
-
-fn to_list_print(csv_str: String) -> Nil {
-  let assert Ok(records) = gsv.to_lists(csv_str)
-  let _ = io.debug(records)
-  io.println("")
 }
