@@ -6,7 +6,7 @@ import simplifile.{describe_error, read}
 pub fn main() {
   case argv.load().arguments {
     [file_name] -> to_list(file_name)
-    _ -> io.println("args")
+    _ -> io.println("no file name argument")
   }
 }
 
