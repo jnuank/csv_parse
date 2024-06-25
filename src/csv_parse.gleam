@@ -1,7 +1,7 @@
 import argv
 import gleam/io
 import gleam/list
-import gsv.{Unix,Windows}
+import gsv.{Unix, Windows}
 import simplifile.{describe_error, read}
 
 pub fn main() {
