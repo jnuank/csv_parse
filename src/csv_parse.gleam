@@ -1,6 +1,8 @@
 import argv
+import gleam/dict
 import gleam/io
 import gleam/list
+import gleam/result
 import gsv
 import simplifile.{describe_error, read}
 
@@ -16,8 +18,7 @@ fn to_list(file_name: String) -> Nil {
 
   let func = fn(x, i) {
     case i {
-      // 0 | 5 | 12 | 13 | 20 -> x
-      0 | 12 | 20 -> x
+      0 | 12 | 19 -> x
       _ -> ""
     }
   }
@@ -26,12 +27,26 @@ fn to_list(file_name: String) -> Nil {
     Ok(file) -> {
       let assert Ok(records) = gsv.to_lists(file)
 
+      let data =
         records
-        // |> list.take(20)
+        |> list.drop(1)
         |> list.map(fn(xs) {
           xs |> list.index_map(func) |> list.filter(fn(x) { x != "" })
         })
-        |> io.debug
+
+      data
+      |> list.map(fn(xs) {
+        case xs {
+          [x, y, z] -> dict.new() |> dict.insert([x, y], [z])
+          _ -> dict.new()
+        }
+      })
+      |> list.reduce(fn(acc, x) {
+        dict.combine(acc, x, fn(a, b) { list.append(a, b) })
+      })
+      |> result.unwrap(dict.from_list([]))
+      |> io.debug
+
       io.println("")
     }
     Error(e) -> describe_error(e) |> io.println
