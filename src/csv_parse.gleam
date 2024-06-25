@@ -16,7 +16,8 @@ fn to_list(file_name: String) -> Nil {
 
   let func = fn(x, i) {
     case i {
-      0 | 5 | 11 | 12 | 20 -> x
+      // 0 | 5 | 12 | 13 | 20 -> x
+      0 | 12 | 20 -> x
       _ -> ""
     }
   }
@@ -24,13 +25,13 @@ fn to_list(file_name: String) -> Nil {
   case read_file {
     Ok(file) -> {
       let assert Ok(records) = gsv.to_lists(file)
-      let ten_records =
+
         records
-        |> list.take(1)
+        // |> list.take(20)
         |> list.map(fn(xs) {
           xs |> list.index_map(func) |> list.filter(fn(x) { x != "" })
         })
-      let _ = io.debug(ten_records)
+        |> io.debug
       io.println("")
     }
     Error(e) -> describe_error(e) |> io.println
