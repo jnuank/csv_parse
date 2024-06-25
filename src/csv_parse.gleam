@@ -1,7 +1,7 @@
 import argv
 import gleam/io
 import gleam/list
-import gsv.{Unix, Windows}
+import gsv
 import simplifile.{describe_error, read}
 
 pub fn main() {
@@ -14,10 +14,22 @@ pub fn main() {
 fn to_list(file_name: String) -> Nil {
   let read_file = read(file_name)
 
+  let func = fn(x, i) {
+    case i {
+      0 | 5 | 11 | 12 | 20 -> x
+      _ -> ""
+    }
+  }
+
   case read_file {
     Ok(file) -> {
       let assert Ok(records) = gsv.to_lists(file)
-      let ten_records = records |> list.drop(1) |> list.take(1)
+      let ten_records =
+        records
+        |> list.take(1)
+        |> list.map(fn(xs) {
+          xs |> list.index_map(func) |> list.filter(fn(x) { x != "" })
+        })
       let _ = io.debug(ten_records)
       io.println("")
     }
