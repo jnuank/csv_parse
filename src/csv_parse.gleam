@@ -17,7 +17,7 @@ fn to_list(file_name: String) -> Nil {
   case read_file {
     Ok(file) -> {
       let assert Ok(records) = gsv.to_lists(file)
-      let ten_records = records |> list.take(3)
+      let ten_records = records |> list.drop(1) |> list.take(1)
       let _ = io.debug(ten_records)
       io.println("")
     }
