@@ -56,28 +56,10 @@ pub fn list_summary_test() {
         Interview("a", "一次", ["2さん"]),
   ]
 
-  // list.map(data, fn(x) {
-  //   case x {
-  //     [candidate_name, step, interviewers] -> Interview(candidate_name, step, [interviewers])
-  //     _ -> Interview("other", "other", [])
-  //   }
-  // })
-  // |> io.debug
-
-  // let data2 = ["a", "一次", "1さん"]
-
-  // let result = case data {
-  //   [["a", test1, ..],_] -> test1
-  //   _ -> "other"
-  // }
-
-  // let data3 = #("a", #("一次", ["1さん", "2さん"]))
-// 
 
   io.debug(1 == 1 && 4 < 3)
   let data4 = Interview("a", "一次", ["1さん", "2さん"])
-// 
-  // io.debug(data4)
+
   interview_merge(data)
   |> should.equal(data4)
 
