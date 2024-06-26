@@ -16,25 +16,22 @@ pub fn main() {
 fn to_list(file_name: String) -> Nil {
   let read_file = read(file_name)
 
-  let func = fn(x, i) {
-    case i {
-      0 | 12 | 19 -> x
-      _ -> ""
-    }
-  }
-
   case read_file {
     Ok(file) -> {
       let assert Ok(records) = gsv.to_lists(file)
 
-      let data =
-        records
-        |> list.drop(1)
-        |> list.map(fn(xs) {
-          xs |> list.index_map(func) |> list.filter(fn(x) { x != "" })
+      records
+      |> list.drop(1)
+      |> list.map(fn(xs) {
+        xs
+        |> list.index_map(fn(x, i) {
+          case i {
+            0 | 12 | 19 -> x
+            _ -> ""
+          }
         })
-
-      data
+        |> list.filter(fn(x) { x != "" })
+      })
       |> list.map(fn(xs) {
         case xs {
           [x, y, z] -> dict.new() |> dict.insert([x, y], [z])
